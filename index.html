@@ -1,0 +1,357 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>CyberShield — AI-Powered IoT Security Platform</title>
+  <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+  <div class="app-layout">
+    <!-- Left Sidebar -->
+    <aside class="sidebar">
+      <div class="sidebar-header">
+        <div class="logo-badge">CS</div>
+        <div class="sidebar-title-group">
+          <h1>CYBERSHIELD</h1>
+          <div class="sidebar-subtitle">IoT Defense SOC</div>
+        </div>
+      </div>
+
+      <nav class="sidebar-nav">
+        <div class="nav-label">Core Operations</div>
+        <a href="#dashboard" class="nav-item active" data-view="dashboard">
+          <span class="nav-icon">📊</span>
+          <span>Dashboard</span>
+        </a>
+        <a href="#devices" class="nav-item" data-view="devices">
+          <span class="nav-icon">📟</span>
+          <span>Devices</span>
+        </a>
+        <a href="#threats" class="nav-item" data-view="threats">
+          <span class="nav-icon">🛡️</span>
+          <span>Threats</span>
+          <span class="nav-counter" id="threatCounter">3</span>
+        </a>
+        <a href="#incidents" class="nav-item" data-view="incidents">
+          <span class="nav-icon">📜</span>
+          <span>Incidents & Audit</span>
+        </a>
+      </nav>
+
+      <!-- Sidebar Status Area -->
+      <div class="sidebar-footer">
+        <div class="system-status-card">
+          <div class="status-indicator-row">
+            <span class="status-label">System Status</span>
+            <span class="status-val">
+              <span class="pulse-dot"></span> Online
+            </span>
+          </div>
+          <div class="status-indicator-row">
+            <span class="status-label">AI Engine</span>
+            <span class="status-val" style="color: var(--accent-cyan);">
+              <span class="pulse-dot pulse-blue"></span> Active
+            </span>
+          </div>
+        </div>
+      </div>
+    </aside>
+
+    <!-- Main Content Area -->
+    <main class="main-wrapper">
+      <!-- Top Bar -->
+      <header class="top-bar">
+        <div class="page-headline">
+          <h2 id="pageTitle">IoT Security Overview</h2>
+          <p id="pageSubtitle">Real-time monitoring and AI-based threat detection</p>
+        </div>
+        <div class="top-actions">
+          <span class="scope-badge">PROTOTYPE // IOT-SECURITY</span>
+          <span class="clock-display" id="liveClock">18:49:12 UTC</span>
+        </div>
+      </header>
+
+      <!-- Dynamic Views Container -->
+      <div class="content-body">
+        
+        <!-- ========================================================================= -->
+        <!-- VIEW 1: DASHBOARD                                                        -->
+        <!-- ========================================================================= -->
+        <section id="view-dashboard" class="view-section active">
+          <!-- Top 4 Metric Cards -->
+          <div class="stats-grid">
+            <div class="stat-card">
+              <div class="stat-card-header">
+                <span class="stat-label">Total Devices</span>
+                <span class="stat-badge badge-low">Inventory</span>
+              </div>
+              <div class="stat-value" id="statTotalDevices">24</div>
+              <div class="stat-subtext">Registered IoT nodes in fleet</div>
+            </div>
+
+            <div class="stat-card">
+              <div class="stat-card-header">
+                <span class="stat-label">Online Devices</span>
+                <span class="stat-badge badge-low">Operational</span>
+              </div>
+              <div class="stat-value" id="statOnlineDevices">21</div>
+              <div class="stat-subtext">Heartbeat active in last 60s</div>
+            </div>
+
+            <div class="stat-card threat-card">
+              <div class="stat-card-header">
+                <span class="stat-label">Active Threats</span>
+                <span class="stat-badge badge-high">Immediate</span>
+              </div>
+              <div class="stat-value" id="statActiveThreats">3</div>
+              <div class="stat-subtext">Anomalies requiring mitigation</div>
+            </div>
+
+            <div class="stat-card risk-card">
+              <div class="stat-card-header">
+                <span class="stat-label">High Risk Devices</span>
+                <span class="stat-badge badge-critical">Attention</span>
+              </div>
+              <div class="stat-value" id="statHighRisk">2</div>
+              <div class="stat-subtext">Risk score &gt; 80 / 100</div>
+            </div>
+          </div>
+
+          <!-- AI Security Engine Banner -->
+          <div class="ai-engine-banner">
+            <div class="ai-engine-info">
+              <div class="ai-icon-chip">⚡</div>
+              <div>
+                <div class="ai-engine-title">AI Security Engine: Active (Behavioral Anomaly Detection)</div>
+                <div class="ai-engine-sub">Normal baseline established across 24 endpoints &bull; Real-time heuristic packet correlation</div>
+              </div>
+            </div>
+            <div class="ai-engine-metrics">
+              <div class="ai-metric-item">
+                <div class="ai-metric-label">Max Behavior Deviation</div>
+                <div class="ai-metric-value" style="color: #f87171;">82%</div>
+              </div>
+              <div class="ai-metric-item">
+                <div class="ai-metric-label">Peak Risk Score</div>
+                <div class="ai-metric-value" style="color: #fb7185;">87/100</div>
+              </div>
+            </div>
+          </div>
+
+          <!-- Charts & Analytics Middle Grid -->
+          <div class="dashboard-middle-grid">
+            <!-- Network Activity Chart -->
+            <div class="panel-card">
+              <div class="panel-header">
+                <span class="panel-title">
+                  <span>📈</span> Network Activity (Baseline vs Observed)
+                </span>
+                <button class="panel-action-btn" onclick="switchView('threats')">Inspect Anomaly &rarr;</button>
+              </div>
+              <div class="panel-content">
+                <div class="chart-container">
+                  <svg id="networkChartSvg" class="chart-svg"></svg>
+                </div>
+                <div class="chart-legend">
+                  <div class="legend-item">
+                    <span class="legend-color" style="background-color: var(--accent-cyan); border: 1px dashed #06b6d4;"></span>
+                    <span>Learned Normal Baseline (Avg 18 KB/s)</span>
+                  </div>
+                  <div class="legend-item">
+                    <span class="legend-color" style="background-color: var(--status-high);"></span>
+                    <span>Observed Traffic Ingestion (Spike 1.8 MB/s)</span>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <!-- Risk Distribution -->
+            <div class="panel-card">
+              <div class="panel-header">
+                <span class="panel-title">
+                  <span>🛡️</span> Fleet Risk Distribution
+                </span>
+              </div>
+              <div class="panel-content">
+                <div class="risk-breakdown-list" id="riskBreakdownContainer">
+                  <!-- Populated dynamically by app.js -->
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <!-- Recent Security Events Panel -->
+          <div class="panel-card">
+            <div class="panel-header">
+              <span class="panel-title">
+                <span>⚠️</span> Recent Security Events & Anomalies
+              </span>
+              <button class="panel-action-btn" onclick="switchView('threats')">View All Threats &rarr;</button>
+            </div>
+            <div class="event-list" id="recentEventsList">
+              <!-- Populated dynamically by app.js -->
+            </div>
+          </div>
+        </section>
+
+
+        <!-- ========================================================================= -->
+        <!-- VIEW 2: DEVICE MONITORING PAGE                                            -->
+        <!-- ========================================================================= -->
+        <section id="view-devices" class="view-section">
+          <div class="data-table-container">
+            <div class="table-toolbar">
+              <div class="search-input-wrap">
+                <span style="color: var(--text-muted); font-size: 13px;">🔍</span>
+                <input type="text" id="deviceSearchInput" placeholder="Filter devices by name, IP, or type...">
+              </div>
+              <div class="table-filter-group">
+                <button class="filter-btn active" data-filter="all">All Devices (24)</button>
+                <button class="filter-btn" data-filter="online">Online</button>
+                <button class="filter-btn" data-filter="isolated">Isolated</button>
+                <button class="filter-btn" data-filter="offline">Offline</button>
+                <button class="filter-btn" data-filter="high-risk">High Risk</button>
+              </div>
+            </div>
+
+            <table class="custom-table">
+              <thead>
+                <tr>
+                  <th>Device / MAC</th>
+                  <th>Type</th>
+                  <th>IP Address</th>
+                  <th>Status</th>
+                  <th>Network Activity</th>
+                  <th>Risk Score</th>
+                  <th>Action</th>
+                </tr>
+              </thead>
+              <tbody id="devicesTableBody">
+                <!-- Populated dynamically by app.js -->
+              </tbody>
+            </table>
+          </div>
+        </section>
+
+
+        <!-- ========================================================================= -->
+        <!-- VIEW 3: THREAT / ALERT PAGE                                               -->
+        <!-- ========================================================================= -->
+        <section id="view-threats" class="view-section">
+          <div class="threat-grid">
+            <!-- Left: Threat List -->
+            <div class="threat-list-card">
+              <div class="threat-list-header">
+                <span>Active Threat Queue</span>
+                <span style="font-size: 11px; color: var(--text-muted);">Real-time detections</span>
+              </div>
+              <div class="threat-items-scroll" id="threatListItems">
+                <!-- Populated dynamically by app.js -->
+              </div>
+            </div>
+
+            <!-- Right: Deep-Dive Threat Detail Panel -->
+            <div class="threat-detail-panel" id="threatDetailContent">
+              <!-- Populated dynamically by app.js -->
+            </div>
+          </div>
+        </section>
+
+
+        <!-- ========================================================================= -->
+        <!-- VIEW 4: INCIDENT & AUDIT PAGE                                             -->
+        <!-- ========================================================================= -->
+        <section id="view-incidents" class="view-section">
+          <div class="audit-layout-grid">
+            <!-- Left: Incident Timeline -->
+            <div class="panel-card">
+              <div class="panel-header">
+                <span class="panel-title">
+                  <span>⏱️</span> Incident Response Timeline
+                </span>
+                <span style="font-size: 11px; color: var(--text-muted); font-family: var(--font-mono);">
+                  ID: INC-2026-0930-07
+                </span>
+              </div>
+              <div class="timeline-container">
+                <div class="timeline" id="auditTimeline">
+                  <!-- Populated dynamically by app.js -->
+                </div>
+              </div>
+            </div>
+
+            <!-- Right: Cryptographic Evidence Integrity Card -->
+            <div>
+              <div class="evidence-card" id="evidenceCardContainer">
+                <!-- Populated dynamically by app.js -->
+              </div>
+
+              <!-- Security Workflow Information -->
+              <div class="panel-card">
+                <div class="panel-header">
+                  <span class="panel-title">
+                    <span>⚙️</span> CyberShield Execution Pipeline
+                  </span>
+                </div>
+                <div class="panel-content" style="font-size: 13px; color: var(--text-secondary); line-height: 1.6;">
+                  <p style="margin-bottom: 10px;">
+                    This prototype demonstrates the end-to-end autonomous IoT security life cycle:
+                  </p>
+                  <div style="background: var(--bg-card); padding: 12px; border-radius: var(--radius-sm); border: 1px solid var(--border-color); font-family: var(--font-mono); font-size: 12px; color: var(--accent-cyan); margin-bottom: 12px;">
+                    IoT Devices &rarr; Behavior Monitoring &rarr; AI Anomaly Detection &rarr; Risk Scoring &rarr; Explainable Alert &rarr; Response &rarr; Secure Evidence
+                  </div>
+                  <p>
+                    All incident records, telemetry deltas, and automated containment actions are hashed into a tamper-evident audit record for SOC accountability.
+                  </p>
+                </div>
+              </div>
+            </div>
+          </div>
+        </section>
+
+      </div>
+    </main>
+  </div>
+
+  <!-- Device Detail Modal -->
+  <div class="modal-overlay" id="deviceModal">
+    <div class="modal-box">
+      <div class="modal-header">
+        <h3 id="deviceModalTitle">Device Profile</h3>
+        <button class="modal-close-btn" onclick="closeDeviceModal()">&times;</button>
+      </div>
+      <div class="modal-body" id="deviceModalBody">
+        <!-- Content populated dynamically -->
+      </div>
+      <div class="modal-footer">
+        <button class="btn btn-secondary" onclick="closeDeviceModal()">Close</button>
+        <button class="btn btn-danger" id="modalIsolateBtn" onclick="isolateDevice()">Isolate Device</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Forensic Telemetry Investigation Modal -->
+  <div class="modal-overlay" id="investigationModal">
+    <div class="modal-box">
+      <div class="modal-header">
+        <h3 id="investigationModalTitle">Forensic Telemetry Investigation</h3>
+        <button class="modal-close-btn" onclick="closeInvestigationModal()">&times;</button>
+      </div>
+      <div class="modal-body" id="investigationModalBody">
+        <!-- Content populated dynamically -->
+      </div>
+      <div class="modal-footer">
+        <button class="btn btn-secondary" onclick="closeInvestigationModal()">Done</button>
+        <button class="btn btn-primary" onclick="closeInvestigationModal(); switchView('incidents');">View Audit Trail</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Toast Notification Container -->
+  <div class="toast-container" id="toastContainer"></div>
+
+  <!-- JavaScript Application Entry -->
+  <script src="js/app.js"></script>
+</body>
+</html>
