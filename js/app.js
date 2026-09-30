@@ -841,17 +841,20 @@ function renderNetworkChart() {
   const observedPoints = [16, 17, 15, 19, 21, 20, 19, 18, 28, 45, 82, 95, 98, 89, 75, 42];
 
   const width = 500;
-  const height = 150;
-  const padding = 20;
+  const height = 155;
+  const paddingTop = 16;
+  const paddingBottom = 22;
+  const paddingX = 20;
 
   const maxVal = 100;
-  const stepX = (width - padding * 2) / (baselinePoints.length - 1);
+  const stepX = (width - paddingX * 2) / (baselinePoints.length - 1);
+  const chartHeight = height - paddingTop - paddingBottom;
 
   // Generate path coordinates
   const makePath = (data) => {
     return data.map((val, idx) => {
-      const x = padding + idx * stepX;
-      const y = height - padding - (val / maxVal) * (height - padding * 2);
+      const x = paddingX + idx * stepX;
+      const y = height - paddingBottom - (val / maxVal) * chartHeight;
       return `${idx === 0 ? 'M' : 'L'} ${x.toFixed(1)} ${y.toFixed(1)}`;
     }).join(' ');
   };
@@ -860,14 +863,14 @@ function renderNetworkChart() {
   const observedPathD = makePath(observedPoints);
 
   // Generate Area under observed curve
-  const areaObservedD = `${observedPathD} L ${width - padding} ${height - padding} L ${padding} ${height - padding} Z`;
+  const areaObservedD = `${observedPathD} L ${width - paddingX} ${height - paddingBottom} L ${paddingX} ${height - paddingBottom} Z`;
 
   svg.setAttribute('viewBox', `0 0 ${width} ${height}`);
   svg.innerHTML = `
     <!-- Grid lines -->
-    <line x1="${padding}" y1="${padding}" x2="${width - padding}" y2="${padding}" stroke="#243249" stroke-dasharray="3,3" />
-    <line x1="${padding}" y1="${height / 2}" x2="${width - padding}" y2="${height / 2}" stroke="#243249" stroke-dasharray="3,3" />
-    <line x1="${padding}" y1="${height - padding}" x2="${width - padding}" y2="${height - padding}" stroke="#243249" />
+    <line x1="${paddingX}" y1="${paddingTop}" x2="${width - paddingX}" y2="${paddingTop}" stroke="#233249" stroke-dasharray="3,3" />
+    <line x1="${paddingX}" y1="${paddingTop + chartHeight / 2}" x2="${width - paddingX}" y2="${paddingTop + chartHeight / 2}" stroke="#233249" stroke-dasharray="3,3" />
+    <line x1="${paddingX}" y1="${height - paddingBottom}" x2="${width - paddingX}" y2="${height - paddingBottom}" stroke="#2e415e" />
     
     <!-- Area gradient for observed -->
     <defs>
@@ -882,8 +885,14 @@ function renderNetworkChart() {
     <path d="${observedPathD}" fill="none" stroke="#ef4444" stroke-width="2.5" />
     
     <!-- Anomaly Indicator Marker -->
-    <circle cx="${padding + 12 * stepX}" cy="${height - padding - (98 / maxVal) * (height - padding * 2)}" r="4.5" fill="#ef4444" stroke="#ffffff" stroke-width="1.5" />
-    <text x="${padding + 12 * stepX - 10}" y="${height - padding - (98 / maxVal) * (height - padding * 2) - 8}" fill="#f87171" font-size="9" font-family="monospace" font-weight="bold">82% Spike</text>
+    <circle cx="${paddingX + 12 * stepX}" cy="${height - paddingBottom - (98 / maxVal) * chartHeight}" r="5" fill="#ef4444" stroke="#ffffff" stroke-width="1.8" />
+    <text x="${paddingX + 12 * stepX - 16}" y="${height - paddingBottom - (98 / maxVal) * chartHeight - 10}" fill="#f87171" font-size="11" font-family="var(--font-mono)" font-weight="700">82% Spike</text>
+
+    <!-- Time axis labels -->
+    <text x="${paddingX}" y="${height - 5}" fill="#64748b" font-size="10" font-family="var(--font-mono)">18:00</text>
+    <text x="${paddingX + 5 * stepX - 12}" y="${height - 5}" fill="#64748b" font-size="10" font-family="var(--font-mono)">18:15</text>
+    <text x="${paddingX + 10 * stepX - 12}" y="${height - 5}" fill="#64748b" font-size="10" font-family="var(--font-mono)">18:30</text>
+    <text x="${width - paddingX - 22}" y="${height - 5}" fill="#94a3b8" font-size="10" font-family="var(--font-mono)" font-weight="600">LIVE</text>
   `;
 }
 
